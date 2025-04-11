@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Kamera Feed</title>
+</head>
+<body>
+  <h1>📡 Daljinski prikaz kamere</h1>
+  <button onclick="startCamera()">Start kamera</button>
+  <button onclick="stopCamera()">Stop kamera</button>
+  <p id="status"></p>
+  <br>
+  <img id="video" src="" width="640" height="480">
+
+  <script>
+    const server = "https://845f-178-220-63-170.ngrok-free.app";
+
+    function startCamera() {
+      fetch(`${server}/start-camera`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("status").textContent = "✅ Kamera pokrenuta";
+          document.getElementById("video").src = `${server}/video_feed`;
+        })
+        .catch(err => alert("Greška: " + err));
+    }
+
+    function stopCamera() {
+      fetch(`${server}/stop-camera`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("status").textContent = "🛑 Kamera ugašena";
+          document.getElementById("video").src = "";
+        })
+        .catch(err => alert("Greška: " + err));
+    }
+  </script>
+</body>
+</html>
